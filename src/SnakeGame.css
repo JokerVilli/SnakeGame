@@ -1,0 +1,243 @@
+:root {
+  --main-snake-color: rgba(255, 255, 255, 0.7);
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #671ead;
+  flex-direction: column;
+}
+
+.game-text {
+  height: 5vh;
+  text-transform: uppercase;
+  font-size: 5vh;
+  font-family: Saira, sans-serif;
+  font-weight: 900;
+  letter-spacing: 10px;
+  line-height: 100%;
+  background-color: crimson;
+  color: transparent;
+  text-shadow: -2px -2px 1px rgb(143 36 197 / 80%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}
+
+.game-board {
+  display: grid;
+  gap: 1px;
+  background-color: #671ead;
+  border: 2px solid #333;
+  box-sizing: border-box;
+}
+
+.cell {
+  background-color: #671ead;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.head {
+  background-color: #65afb5 !important;
+  border-radius: 6px;
+  box-shadow: inset 0 0 4px crimson;
+}
+
+.head-up {
+  border-radius: 20px 20px 0 0;
+}
+
+.head-down {
+  border-radius: 0 0 20px 20px;
+}
+
+.head-left {
+  border-radius: 20px 0 0 20px;
+}
+
+.head-right {
+  border-radius: 0 20px 20px 0;
+}
+
+.tail {
+  background-color: var(--main-snake-color);
+  border-radius: 6px;
+  box-shadow: inset 0 0 4px crimson;
+}
+
+.tail-up {
+  border-radius: 0 0 20px 20px;
+}
+
+.tail-down {
+  border-radius: 20px 20px 0 0;
+}
+
+.tail-left {
+  border-radius: 0 20px 20px 0;
+}
+
+.tail-right {
+  border-radius: 20px 0 0 20px;
+}
+
+.food {
+  > .inner {
+    display: block;
+    background: linear-gradient(151deg, rgba(255, 8, 8, 1) 0%, rgba(255, 0, 245, 1) 100%);
+    width: 65%;
+    height: 65%;
+    border-radius: 13px;
+    box-shadow: 0 0 5px #d935d9;
+    z-index: 1;
+  }
+}
+
+.game-over {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: #ff0000;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+}
+
+.snake-body {
+  background-color: var(--main-snake-color);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  box-shadow: inset 0 0 4px crimson;
+}
+
+.corner-right-down {
+  border-radius: 0 20px 0 0;
+}
+
+.corner-left-down {
+  border-radius: 20px 0 0 0;
+}
+
+.corner-right-up {
+  border-radius: 0 0 20px 0;
+}
+
+.corner-left-up {
+  border-radius: 0 0 0 20px;
+}
+
+/* Для плавности изгибов добавим псевдоэлементы */
+/* .corner-right-down::before,
+.corner-left-down::before,
+.corner-right-up::before,
+.corner-left-up::before {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  background-color: inherit;
+}
+
+.corner-right-down::before {
+  top: 0;
+  left: 50%;
+  border-radius: 0 20px 0 0;
+}
+
+.corner-left-down::before {
+  top: 0;
+  right: 50%;
+  border-radius: 20px 0 0 0;
+}
+
+.corner-right-up::before {
+  bottom: 0;
+  left: 50%;
+  border-radius: 0 0 20px 0;
+}
+
+.corner-left-up::before {
+  bottom: 0;
+  right: 50%;
+  border-radius: 0 0 0 20px;
+} */
+
+.inner {
+  background-color: rgba(255, 8, 8, 0.7);
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  box-shadow: 0 0 3px violet;
+}
+
+.snake-body > .inner {
+  display: block;
+  background: linear-gradient(151deg, rgba(255, 8, 8, 1) 0%, rgba(255, 0, 245, 1) 100%);
+  width: 65%;
+  height: 65%;
+  border-radius: 13px;
+  box-shadow: 0 0 5px #d935d9;
+  z-index: 1;
+  opacity: 0.2;
+}
+.head > .inner, .tail > .inner {
+  display: none;;
+}
+
+.box {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #9e21aa;
+  cursor: pointer;
+  transition: all 1s ease-in-out;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+  text-transform: uppercase;
+  font-size: 4vh;
+  font-family: Saira, sans-serif;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+.box.clone {
+  /* pointer-events: none; */
+  z-index: 100;
+}
+
+.box.expanding {
+  width: 60vw;
+  height: 60vh;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+  box-shadow: 3px 3px 3px crimson;
+  border-radius: 10px;
+  outline: 1px solid crimson;
+  opacity: 0.85;
+  color: white;
+  visibility: visible;
+}
+
+.close-button {
+  width: fit-content;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  height: fit-content;
+  transform: rotate(45deg);
+  cursor: pointer;
+  z-index: 101;
+  line-height: 60%;
+}
