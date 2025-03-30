@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./SnakeGame.css";
 import "./experience/styles.css";
 import ProgressBar from "./ProgressBar";
@@ -14,11 +14,11 @@ import { getCellClasses } from "./utils";
 import { ExperienceModal } from "./ExperienceModal";
 import { GameBoard } from "./GameBoard";
 import { Cell } from "./Cell";
+import { useFood } from "./hooks/useFood";
 
 const SnakeGame: React.FC = () => {
   const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
   const [direction, setDirection] = useState<Direction>(INITIAL_DIRECTION);
-  const [food, setFood] = useState<Position>({ x: 10, y: 10 });
   const [gameOver, setGameOver] = useState(false);
   const [prevHeadDirection, setPrevHeadDirection] = useState(direction);
   const [isPaused, setIsPaused] = useState(false);
@@ -31,23 +31,7 @@ const SnakeGame: React.FC = () => {
   const GRID_SIZE_Y = Math.round(height * COEF);
   const GRID_SIZE_X = Math.round((GRID_SIZE_Y / height) * width);
 
-  const generateFood = useCallback(() => {
-    const newFood = () => ({
-      x: Math.floor(Math.random() * GRID_SIZE_X),
-      y: Math.floor(Math.random() * GRID_SIZE_Y),
-    });
-
-    let foodPosition = newFood();
-    while (
-      snake.some(
-        (segment) =>
-          segment.x === foodPosition.x && segment.y === foodPosition.y
-      )
-    ) {
-      foodPosition = newFood();
-    }
-    setFood(foodPosition);
-  }, [GRID_SIZE_X, GRID_SIZE_Y, snake]);
+  const { food, generateFood} = useFood(GRID_SIZE_X, GRID_SIZE_Y, snake);
 
   const moveSnake = useCallback(() => {
     if (gameOver) return;
@@ -182,14 +166,6 @@ const SnakeGame: React.FC = () => {
     const interval = setInterval(moveSnake, timer);
     return () => clearInterval(interval);
   }, [moveSnake, gameOver, isPaused, timer]);
-
-  useEffect(() => {
-    generateFood();
-  }, []);
-
-  useEffect(() => {
-    console.log(timer);
-  }, [timer]);
 
   return (
     <div className="game-container">
