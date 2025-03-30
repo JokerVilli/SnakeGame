@@ -29,6 +29,6 @@ export const useFood = (
   useEffect(() => {
     generateFood();
   }, []);
-
+ 
   return { food, generateFood };
 };

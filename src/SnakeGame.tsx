@@ -79,7 +79,7 @@ const SnakeGame: React.FC = () => {
 
       newSnake.unshift(newHead);
       if (newHead.x === food.x && newHead.y === food.y) {
-        if (EXPERIENCE_MAP.length > experienceLevel) {
+        if (EXPERIENCE_MAP.length > experienceLevel && (snake.length%3 !== 0 && snake.length%2 === 0)) {
           setIsPaused(true);
           const newClone: CloneBox = {
             isExpanding: false,
@@ -107,7 +107,7 @@ const SnakeGame: React.FC = () => {
     if (gameOver || isPaused) return;
     const interval = setInterval(moveSnake, timer);
     return () => clearInterval(interval);
-  }, [moveSnake, gameOver, isPaused, timer]);
+  }, [moveSnake, gameOver, isPaused, timer]);  
 
   return (
     <div className="game-container">
@@ -123,13 +123,13 @@ const SnakeGame: React.FC = () => {
             return (
               <Cell
                 key={i}
-                className={getCellClasses(x, y, snake, food, prevHeadDirection)}
+                className={getCellClasses(x, y, snake, food, prevHeadDirection, EXPERIENCE_MAP.length <= experienceLevel)}
               />
             );
           })}
         </GameBoard>
         <div className="progress-bar-container">
-          <ProgressBar activeStep={experienceLevel - 1} />
+          <ProgressBar activeStep={experienceLevel} />
         </div>
       </div>
       {clone && (

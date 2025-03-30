@@ -1,23 +1,18 @@
+import { EXPERIENCE_MAP } from "./constants";
 import "./ProgressBar.css";
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const ProgressBar = ({ activeStep }: { activeStep: number}) => {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const totalSteps = 7;
+  const totalSteps = EXPERIENCE_MAP.length;
 
   useEffect(() => {
-      if (activeStep >= totalSteps - 1 || isAnimating) return;
-      
-      setIsAnimating(true);
-      
-      setIsAnimating(false);
-
-  }, [activeStep, isAnimating]);
+      if (activeStep >= totalSteps) return;
+  }, [activeStep]);
 
   const renderSteps = () => {
     const steps = [];
     
-    for (let i = 0; i < totalSteps; i++) {
+    for (let i = 1; i <= totalSteps; i++) {
       steps.push(
         <div 
           key={`circle-${i}`}
@@ -26,7 +21,7 @@ const ProgressBar = ({ activeStep }: { activeStep: number}) => {
         />
       );
 
-      if (i < totalSteps - 1) {
+      if (i < totalSteps) {
         steps.push(
           <div key={`line-${i}`} className="line">
             <div 

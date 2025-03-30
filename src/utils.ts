@@ -38,7 +38,7 @@ export const getDirectionChange = (
     }
   };
 
-  export const getCellClasses = (x: number, y: number, snake: Position[], food: Position, prevHeadDirection: Direction) => {
+  export const getCellClasses = (x: number, y: number, snake: Position[], food: Position, prevHeadDirection: Direction, noFood: boolean) => {
     const isHead = snake[0].x === x && snake[0].y === y;
     const isBody = snake
       .slice(1, -1)
@@ -60,7 +60,8 @@ export const getDirectionChange = (
       }
       classes += ` tail tail-${tailDirection.toLowerCase()}`;
     }
-    if (isFood) classes += " food";
+    
+    if (isFood) classes += snake.length%3 === 0 ? " food food-green" : snake.length%2 === 0 && !noFood ? " food" : " food food-orange";
 
     const isCorner = snake.slice(1, -1).some((segment, index) => {
       if (segment.x !== x || segment.y !== y) return false;
