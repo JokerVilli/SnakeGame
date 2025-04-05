@@ -7,6 +7,8 @@ import Grid from './Grid.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* <Grid /> */}
+    
     <SnakeGame />
   </StrictMode>,
 )
+  

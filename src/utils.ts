@@ -38,18 +38,34 @@ export const getDirectionChange = (
     }
   };
 
-  export const getCellClasses = (x: number, y: number, snake: Position[], food: Position, prevHeadDirection: Direction, noFood: boolean) => {
+  export const getCellClasses = (x: number, y: number, snake: Position[], food: Position, prevHeadDirection: Direction, maxExperienceLevel: number, noFood: boolean) => {
     const isHead = snake[0].x === x && snake[0].y === y;
     const isBody = snake
       .slice(1, -1)
       .some((segment) => segment.x === x && segment.y === y);
+    const { index: bodyCellIndex, crimsonFoodIndexesArr } = (() => {
+      if (isBody) {
+        const crimsonFoodIndexesArr: number[] = []; // это массив индексов вхождений малиновой еды в общее тело змеи
+        const bodyCell = snake.slice(1, -1).find((segment) => segment.x === x && segment.y === y);
+        const index = snake.findIndex(s => s.x === bodyCell?.x && s.y === bodyCell?.y);
+        Array.from(Array(index)).map((e,i)=>i+1).forEach((el) => {
+            if ((el + 1)%3 !== 0 && (el + 1)%2 === 0) {
+            crimsonFoodIndexesArr.push(el)
+          }
+        })
+      
+        return { index, crimsonFoodIndexesArr}
+      } return { index: 0, crimsonFoodIndexesArr: [] }
+    })();
     const isTail =
       snake[snake.length - 1].x === x && snake[snake.length - 1].y === y;
     const isFood = food.x === x && food.y === y;
 
     let classes = "cell";
     if (isHead) classes += ` head head-${prevHeadDirection.toLowerCase()}`;
-    if (isBody) classes += " snake-body";
+    // if (isBody) classes += " snake-body";
+    // окрашиваем тело змеи в цвета съеденной еды
+    if (isBody) classes += (bodyCellIndex + 1)%3 === 0 ? " snake-body food-green" : (bodyCellIndex + 1)%2 === 0 && (crimsonFoodIndexesArr.indexOf(bodyCellIndex) <= maxExperienceLevel) ? " snake-body food" : " snake-body food-orange";
     if (isTail) {
       const prevSegment = snake[snake.length - 2];
       let tailDirection: Direction;
@@ -61,7 +77,7 @@ export const getDirectionChange = (
       classes += ` tail tail-${tailDirection.toLowerCase()}`;
     }
     
-    if (isFood) classes += snake.length%3 === 0 ? " food food-green" : snake.length%2 === 0 && !noFood ? " food" : " food food-orange";
+    if (isFood) classes += snake.length%3 === 0 ? " food food-green food-board" : snake.length%2 === 0 && !(noFood) ? " food food-board" : " food food-orange food-board";
 
     const isCorner = snake.slice(1, -1).some((segment, index) => {
       if (segment.x !== x || segment.y !== y) return false;

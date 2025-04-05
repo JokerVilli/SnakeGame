@@ -1,7 +1,7 @@
 import { CellProps } from "./types";
 
-export const Cell = ({ className }: CellProps) => (
-  <div className={className}>
+export const Cell = ({ className, ...rest }: CellProps) => (
+  <div className={className} {...rest}>
     <div className="inner"></div>
   </div>
 );

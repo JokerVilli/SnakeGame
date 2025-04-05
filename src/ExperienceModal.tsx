@@ -6,11 +6,11 @@ export const ExperienceModal = ({
   clone,
   setClone,
   closeModal,
-  isPaused,
-  experienceLevel,
+  isPaused
 }: ExperienceModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAnimated, setIsAnimated] = useState(false);
+  if (!clone) return;
 
   const handleTransitionEnd = (
     event: React.TransitionEvent<HTMLDivElement>
@@ -34,7 +34,7 @@ export const ExperienceModal = ({
         top: clone?.startY,
       }}
     >
-      {isAnimated && EXPERIENCE_MAP[experienceLevel]}
+      {isAnimated && EXPERIENCE_MAP[clone?.experienceIndex]}
       <div className="close-button" onClick={closeModal}>
         +
       </div>

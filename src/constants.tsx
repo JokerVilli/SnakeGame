@@ -15,4 +15,6 @@ export const INITIAL_SNAKE = [
 ];
 export const INITIAL_DIRECTION: Direction = "RIGHT";
 
+export const GAMEBOARD_HEIGHT = "90vh";
+
 export const EXPERIENCE_MAP = [<Education/>, <Education2/>, <Education3/>, <Education4/>, <Education5/>, <Education6/>]
