@@ -4,6 +4,7 @@ import { Education3 } from "./experience/Education3";
 import { Education4 } from "./experience/Education4";
 import { Education5 } from "./experience/Education5";
 import { Education6 } from "./experience/Education6";
+import { Education7 } from "./experience/Education7";
 import { Direction } from "./types";
 
 export const TIMER = 150;
@@ -17,4 +18,4 @@ export const INITIAL_DIRECTION: Direction = "RIGHT";
 
 export const GAMEBOARD_HEIGHT = "90vh";
 
-export const EXPERIENCE_MAP = [<Education/>, <Education2/>, <Education3/>, <Education4/>, <Education5/>, <Education6/>]
+export const EXPERIENCE_MAP = [<Education/>, <Education2/>, <Education3/>, <Education4/>, <Education5/>, <Education6/>, <Education7 />]

@@ -2,16 +2,21 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./SnakeGame.css";
 import "./experience/styles.css";
 import ProgressBar from "./ProgressBar";
-import { Position } from "./types";
+import { gameContextProps, Position } from "./types";
 import { COEF, EXPERIENCE_MAP, INITIAL_SNAKE, TIMER } from "./constants";
-import { getCellClasses } from "./utils";
 import { ExperienceModal } from "./ExperienceModal";
-import { Cell } from "./Cell";
 import { useCloneModal } from "./hooks/useCloneModal";
 import { useFood } from "./hooks/useFood";
 import { useControls } from "./hooks/useControls";
 import Statistic from "./Statistic";
 import GameBoard from "./GameBoard";
+import Header from "./Header";
+import { playSound } from "./utils";
+import waterGulpSound from './assets/sounds/water_gulp.wav';
+import swipeSound from './assets/sounds/swipe.wav';
+import gameOverSound from './assets/sounds/game_over.wav';
+
+export const GameContext = React.createContext<gameContextProps | null>(null);
 
 const SnakeGame: React.FC = () => {
   const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
@@ -19,13 +24,12 @@ const SnakeGame: React.FC = () => {
   const [greenCount, setGreenCount] = useState(0);
   const [orangeCount, setOrangeCount] = useState(0);
   const [crimsonCount, setCrimsonCount] = useState(0);
+  const [bodyFood, setBodyFood] = useState(["crimson"]);
 
   const { innerWidth: width, innerHeight: height } = window;
 
   const GRID_SIZE_Y = Math.round(height * COEF);
   const GRID_SIZE_X = Math.round((GRID_SIZE_Y / height) * width);
-
-  const [bodyFood, setBodyFood] = useState(["crimson"]);
 
   const { food, generateFood } = useFood(GRID_SIZE_X, GRID_SIZE_Y, snake);
   const {
@@ -33,6 +37,7 @@ const SnakeGame: React.FC = () => {
     clone,
     isPaused,
     timer,
+    youWin,
     closeModal,
     setClone,
     setTimer,
@@ -77,12 +82,14 @@ const SnakeGame: React.FC = () => {
         )
       ) {
         setGameOver(true);
+        playSound(gameOverSound);
         setTimer(TIMER);
         return prevSnake;
       }
 
       newSnake.unshift(newHead);
       if (newHead.x === food.x && newHead.y === food.y) {
+        playSound(waterGulpSound);
         if (
           EXPERIENCE_MAP.length > experienceLevel &&
           snake.length % 3 !== 0 &&
@@ -114,7 +121,26 @@ const SnakeGame: React.FC = () => {
 
       return newSnake;
     });
-  }, [gameOver, direction, prevHeadDirection, setPrevHeadDirection, GRID_SIZE_X, GRID_SIZE_Y, food.x, food.y, setTimer, experienceLevel, snake.length, createClone, crimsonCount, bodyFood, generateFood, timer, greenCount, orangeCount]);
+  }, [
+    gameOver,
+    direction,
+    prevHeadDirection,
+    setPrevHeadDirection,
+    GRID_SIZE_X,
+    GRID_SIZE_Y,
+    food.x,
+    food.y,
+    setTimer,
+    experienceLevel,
+    snake.length,
+    createClone,
+    crimsonCount,
+    bodyFood,
+    generateFood,
+    timer,
+    greenCount,
+    orangeCount,
+  ]);
 
   useEffect(() => {
     if (gameOver || isPaused) return;
@@ -122,57 +148,46 @@ const SnakeGame: React.FC = () => {
     return () => clearInterval(interval);
   }, [moveSnake, gameOver, isPaused, timer]);
 
+  const gameContext = {
+    GRID_SIZE_X,
+    GRID_SIZE_Y,
+    greenCount,
+    orangeCount,
+    crimsonCount,
+    snake,
+    food,
+    prevHeadDirection,
+    noFood: EXPERIENCE_MAP.length <= experienceLevel,
+    bodyFood,
+    experienceLevel,
+    clone,
+    isPaused,
+    gameOver,
+    youWin,
+    createClone,
+    setClone,
+    closeModal
+  }
+
   return (
-    <div className="game-container">
-      <div className="game-text">
-        {gameOver ? "game over" : "just snake it"}
-      </div>
-      <div className="game-board-container">
-        <div className="progress-bar-container">
-          <Statistic
-            greenCount={greenCount}
-            orangeCount={orangeCount}
-            crimsonCount={crimsonCount}
-            GRID_SIZE_Y={GRID_SIZE_Y}
-          />
+    <GameContext.Provider value={gameContext}>
+      <div className="game-container">
+        <Header />
+        <div className="game-board-container">
+          <div className="progress-bar-container">
+            <Statistic
+            />
+          </div>
+          <GameBoard />
+          <div className="progress-bar-container">
+            <ProgressBar />
+          </div>
         </div>
-        <GameBoard GRID_SIZE_X={GRID_SIZE_X} GRID_SIZE_Y={GRID_SIZE_Y}>
-          {Array.from({ length: GRID_SIZE_Y * GRID_SIZE_X }).map((_, i) => {
-            const x = i % GRID_SIZE_X;
-            const y = Math.floor(i / GRID_SIZE_X);
-            return (
-              <Cell
-                key={i}
-                className={getCellClasses({
-                  x,
-                  y,
-                  snake,
-                  food,
-                  prevHeadDirection,
-                  noFood: EXPERIENCE_MAP.length <= experienceLevel,
-                  bodyFood,
-                })}
-              />
-            );
-          })}
-        </GameBoard>
-        <div className="progress-bar-container">
-          <ProgressBar
-            experienceLevel={experienceLevel}
-            clone={clone}
-            createClone={createClone}
-          />
-        </div>
+        {clone && (
+          <ExperienceModal />
+        )}
       </div>
-      {clone && (
-        <ExperienceModal
-          clone={clone}
-          setClone={setClone}
-          isPaused={isPaused}
-          closeModal={closeModal}
-        />
-      )}
-    </div>
+    </GameContext.Provider>
   );
 };
 

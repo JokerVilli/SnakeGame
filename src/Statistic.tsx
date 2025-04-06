@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Cell } from "./Cell";
 import "./Statistic.css";
-import { StatisticProps } from "./types";
+import { GameContext } from "./SnakeGame";
+import { gameContextProps } from "./types";
 
-const Statistic = ({ greenCount, orangeCount, crimsonCount, GRID_SIZE_Y }: StatisticProps) => {
-  const style = { height: `calc(90vh/${GRID_SIZE_Y})`, aspectRatio: 1/1};
+const Statistic = () => {
+  const gameContext = useContext(GameContext);
+  const { GRID_SIZE_Y, greenCount, orangeCount, crimsonCount } = gameContext as gameContextProps;
+  const style = { height: `calc(90vh/${GRID_SIZE_Y})`};
   const record = localStorage.getItem('snakeRecord') as unknown as number ?? 0;
   if (greenCount+orangeCount+crimsonCount > (record as number)*1)localStorage.setItem('snakeRecord', greenCount+orangeCount+crimsonCount+'');
   return (

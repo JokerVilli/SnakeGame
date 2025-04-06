@@ -1,9 +1,14 @@
-import { useRef } from "react";
-import { GameBoardProps } from "./types";
+import { useContext, useRef } from "react";
+import { gameContextProps } from "./types";
 import { GAMEBOARD_HEIGHT } from "./constants";
 import React from "react";
+import { Cell } from "./Cell";
+import { getCellClasses } from "./utils";
+import { GameContext } from "./SnakeGame";
 
-const GameBoard = ({ GRID_SIZE_X, GRID_SIZE_Y, children }: GameBoardProps) => {
+const GameBoard = () => {
+  const gameContext = useContext(GameContext);
+  const { GRID_SIZE_X, GRID_SIZE_Y, snake, food, prevHeadDirection, noFood, bodyFood } = gameContext as gameContextProps;
   const gameBoardRef = useRef<HTMLDivElement>(null);
   return (
     <div
@@ -16,9 +21,26 @@ const GameBoard = ({ GRID_SIZE_X, GRID_SIZE_Y, children }: GameBoardProps) => {
         gridTemplateRows: `repeat(${GRID_SIZE_Y}, 1fr)`,
       }}
     >
-      {children}
+      {Array.from({ length: GRID_SIZE_Y * GRID_SIZE_X }).map((_, i) => {
+        const x = i % GRID_SIZE_X;
+        const y = Math.floor(i / GRID_SIZE_X);
+        return (
+          <Cell
+            key={i}
+            className={getCellClasses({
+              x,
+              y,
+              snake,
+              food,
+              prevHeadDirection,
+              noFood,
+              bodyFood,
+            })}
+          />
+        );
+      })}
     </div>
   );
 };
 
-export default React.memo(GameBoard); 
+export default React.memo(GameBoard);

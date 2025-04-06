@@ -98,3 +98,8 @@ export const getDirectionChange = (
 
     return classes;
   };
+
+  export const playSound = (soundSrc: string) => {
+    const audio = new Audio(soundSrc);
+    audio.play();
+  };

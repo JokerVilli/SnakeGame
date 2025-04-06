@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vw;
+    height: fit-content;
+  }
+  
+  .actions-text {
+    color: crimson; 
+    font-family: Saira, sans-serif;
+    font-weight: 500;
+    text-shadow: 0 0 14px crimson;
+    caret-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.25vw;
+    flex: 0 0 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

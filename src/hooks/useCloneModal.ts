@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect } from "react";
 import { CloneBox, createCloneParams } from "../types";
-import { TIMER } from "../constants";
+import { EXPERIENCE_MAP, TIMER } from "../constants";
+import youWinSound from '../assets/sounds/you_win.wav';
+import { playSound } from "../utils";
 
 export const useCloneModal = (gameOver: boolean, generateFood: () => void) => {
   const [experienceLevel, setExperienceLevel] = useState(0);
   const [clone, setClone] = useState<CloneBox | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [timer, setTimer] = useState(TIMER);
+  const [youWin, setYouWin] = useState(false);
 
   const closeModal = useCallback(() => {
     if (!clone) return;
@@ -19,7 +22,7 @@ export const useCloneModal = (gameOver: boolean, generateFood: () => void) => {
           setExperienceLevel(experienceLevel + 1);
           if (timer > 70) setTimer(timer - 5);
         }
-      }, 0);
+      }, 10);
     }
   }, [clone, generateFood, isPaused, experienceLevel, timer]);
 
@@ -40,9 +43,17 @@ export const useCloneModal = (gameOver: boolean, generateFood: () => void) => {
     if (!clone.isExpanding && isPaused) {
       setTimeout(() => {
         setClone({ ...clone, isExpanding: true });
-      }, 0);
+      }, 10);
     }
   }, [clone, isPaused]);
+
+
+  useEffect(() => {
+    if (EXPERIENCE_MAP.length <= experienceLevel) {
+      setYouWin(true);
+      playSound(youWinSound);
+    };
+  }, [experienceLevel]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -63,6 +74,7 @@ export const useCloneModal = (gameOver: boolean, generateFood: () => void) => {
     clone,
     isPaused,
     timer,
+    youWin,
     closeModal,
     setClone,
     setIsPaused,

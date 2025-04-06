@@ -1,15 +1,20 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { EXPERIENCE_MAP } from "./constants";
-import { ExperienceModalProps } from "./types";
+import { gameContextProps } from "./types";
+import { GameContext } from "./SnakeGame";
 
-export const ExperienceModal = ({
-  clone,
-  setClone,
-  closeModal,
-  isPaused
-}: ExperienceModalProps) => {
+export const ExperienceModal = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAnimated, setIsAnimated] = useState(false);
+
+  const gameContext = useContext(GameContext);
+  const {
+    clone,
+    setClone,
+    closeModal,
+    isPaused
+  } = gameContext as gameContextProps;
+
   if (!clone) return;
 
   const handleTransitionEnd = (

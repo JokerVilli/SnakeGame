@@ -6,7 +6,6 @@
     caret-color: transparent;
     > .food {
       aspect-ratio: 1/1;
-      height: calc(90vh/27);
       align-items: center;
       justify-content: center;
       display: flex;
