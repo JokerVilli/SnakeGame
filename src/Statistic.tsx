@@ -9,11 +9,11 @@ const Statistic = ({ greenCount, orangeCount, crimsonCount, GRID_SIZE_Y }: Stati
   return (
     <div className="statistic">
       <div className="statistic-text">Statistic</div>
-      <Cell className="food food-green" style={style} />
+      <Cell className="food green" style={style} />
       <div className="statistic-text">{greenCount}</div>
-      <Cell className="food food-orange" style={style} />
+      <Cell className="food orange" style={style} />
       <div className="statistic-text">{orangeCount}</div>
-      <Cell className="food" style={style} />
+      <Cell className="food crimson" style={style} />
       <div className="statistic-text">{crimsonCount}</div>
       <div className="statistic-text">Total</div>
       <div className="statistic-text">{greenCount+orangeCount+crimsonCount}</div>

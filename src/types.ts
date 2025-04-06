@@ -40,3 +40,13 @@ export interface StatisticProps {
   crimsonCount: number;
   GRID_SIZE_Y: number;
 }
+
+export interface getCellClassesProps {
+  x: number;
+  y: number;
+  snake: Position[];
+  food: Position;
+  prevHeadDirection: Direction;
+  noFood: boolean;
+  bodyFood: string[]
+}

@@ -130,26 +130,20 @@ DIV {
     z-index: 1;
   }
 }
-.food-green {
+.crimson {
   > .inner {
-    display: block;
-    width: 65%;
-    height: 65%;
-    border-radius: 13px;
-    z-index: 1;
-    /* background: linear-gradient(151deg, rgb(255 249 8) 0%, rgb(255 59 0) 100%);
-    box-shadow: 0 0 5px #d98535; */
+    background: linear-gradient(151deg, rgb(255 8 8) 0%, rgb(255 0 245) 100%);
+    box-shadow: 0 0 5px #d935d9;
+  }
+}
+.green {
+  > .inner {
     background: linear-gradient(151deg, rgb(255 249 8) 0%, rgb(98 255 0) 100%);
     box-shadow: 0 0 5px #35d9d6;
   }
 }
-.food-orange {
+.orange {
   > .inner {
-    display: block;
-    width: 65%;
-    height: 65%;
-    border-radius: 13px;
-    z-index: 1;
     background: linear-gradient(151deg, rgb(255 249 8) 0%, rgb(255 59 0) 100%);
     box-shadow: 0 0 5px #87d935;
   }

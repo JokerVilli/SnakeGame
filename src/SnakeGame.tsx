@@ -25,6 +25,8 @@ const SnakeGame: React.FC = () => {
   const GRID_SIZE_Y = Math.round(height * COEF);
   const GRID_SIZE_X = Math.round((GRID_SIZE_Y / height) * width);
 
+  const [bodyFood, setBodyFood] = useState(["crimson"]);
+
   const { food, generateFood } = useFood(GRID_SIZE_X, GRID_SIZE_Y, snake);
   const {
     experienceLevel,
@@ -88,17 +90,20 @@ const SnakeGame: React.FC = () => {
         ) {
           createClone({
             cloneObject: document.querySelectorAll(
-              ".food-board"
+              ".board"
             )[0] as HTMLDivElement,
             experienceIndex: experienceLevel,
             fromSidebar: false,
           });
           setCrimsonCount(crimsonCount + 1);
+          setBodyFood([...bodyFood, "crimson"]);
         } else {
           if (snake.length % 3 === 0) {
-            setGreenCount(greenCount + 1)
+            setGreenCount(greenCount + 1);
+            setBodyFood([...bodyFood, "green"]);
           } else {
-            setOrangeCount(orangeCount + 1)
+            setOrangeCount(orangeCount + 1);
+            setBodyFood([...bodyFood, "orange"]);
           }
           generateFood();
           if (timer > 70) setTimer(timer - 5);
@@ -109,7 +114,7 @@ const SnakeGame: React.FC = () => {
 
       return newSnake;
     });
-  }, [gameOver, direction, prevHeadDirection, setPrevHeadDirection, GRID_SIZE_X, GRID_SIZE_Y, food.x, food.y, setTimer, experienceLevel, snake.length, createClone, crimsonCount, greenCount, orangeCount, generateFood, timer]);
+  }, [gameOver, direction, prevHeadDirection, setPrevHeadDirection, GRID_SIZE_X, GRID_SIZE_Y, food.x, food.y, setTimer, experienceLevel, snake.length, createClone, crimsonCount, bodyFood, generateFood, timer, greenCount, orangeCount]);
 
   useEffect(() => {
     if (gameOver || isPaused) return;
@@ -124,7 +129,12 @@ const SnakeGame: React.FC = () => {
       </div>
       <div className="game-board-container">
         <div className="progress-bar-container">
-          <Statistic greenCount={greenCount} orangeCount={orangeCount} crimsonCount={crimsonCount} GRID_SIZE_Y={GRID_SIZE_Y} />
+          <Statistic
+            greenCount={greenCount}
+            orangeCount={orangeCount}
+            crimsonCount={crimsonCount}
+            GRID_SIZE_Y={GRID_SIZE_Y}
+          />
         </div>
         <GameBoard GRID_SIZE_X={GRID_SIZE_X} GRID_SIZE_Y={GRID_SIZE_Y}>
           {Array.from({ length: GRID_SIZE_Y * GRID_SIZE_X }).map((_, i) => {
@@ -133,15 +143,15 @@ const SnakeGame: React.FC = () => {
             return (
               <Cell
                 key={i}
-                className={getCellClasses(
+                className={getCellClasses({
                   x,
                   y,
                   snake,
                   food,
                   prevHeadDirection,
-                  EXPERIENCE_MAP.length,
-                  EXPERIENCE_MAP.length <= experienceLevel
-                )}
+                  noFood: EXPERIENCE_MAP.length <= experienceLevel,
+                  bodyFood,
+                })}
               />
             );
           })}
