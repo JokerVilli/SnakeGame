@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import { animatedCirclesProps, gameContextProps } from './types';
+import { animatedCirclesProps, gameContextProps } from '../../types';
 import "./AnimatedCircles.css";
-import { Cell } from './Cell';
-import { GameContext } from './SnakeGame';
+import { Cell } from '../cell/Cell';
+import { GameContext } from '../snake-game/SnakeGame';
 
 const AnimatedCircles = ({ isReversed = false }: animatedCirclesProps) => {
   const [activeIndex, setActiveIndex] = useState(0);

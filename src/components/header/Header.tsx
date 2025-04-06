@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { GameContext } from "./SnakeGame";
-import { gameContextProps } from "./types";
+import { GameContext } from "../snake-game/SnakeGame";
+import { gameContextProps } from "../../types";
 import "./Header.css";
-import AnimatedCircles from "./AnimatedCircles";
+import AnimatedCircles from "../animated-circles/AnimatedCircles";
 
 const Header = () => {
   const gameContext = useContext(GameContext);

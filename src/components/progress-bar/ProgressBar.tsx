@@ -1,8 +1,8 @@
-import { EXPERIENCE_MAP } from "./constants";
+import { EXPERIENCE_MAP } from "../../constants";
 import "./ProgressBar.css";
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { GameContext } from "./SnakeGame";
-import { gameContextProps } from "./types";
+import { GameContext } from "../snake-game/SnakeGame";
+import { gameContextProps } from "../../types";
 
 const ProgressBar = () => {
   const totalSteps = EXPERIENCE_MAP.length;

@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from "react";
-import { EXPERIENCE_MAP } from "./constants";
-import { gameContextProps } from "./types";
-import { GameContext } from "./SnakeGame";
+import { EXPERIENCE_MAP } from "../../constants";
+import { gameContextProps } from "../../types";
+import { GameContext } from "../snake-game/SnakeGame";
 
 export const ExperienceModal = () => {
   const modalRef = useRef<HTMLDivElement>(null);

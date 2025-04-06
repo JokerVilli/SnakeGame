@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { Cell } from "./Cell";
+import { Cell } from "../cell/Cell";
 import "./Statistic.css";
-import { GameContext } from "./SnakeGame";
-import { gameContextProps } from "./types";
+import { GameContext } from "../snake-game/SnakeGame";
+import { gameContextProps } from "../../types";
 
 const Statistic = () => {
   const gameContext = useContext(GameContext);

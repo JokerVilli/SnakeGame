@@ -1,10 +1,10 @@
 import { useContext, useRef } from "react";
-import { gameContextProps } from "./types";
-import { GAMEBOARD_HEIGHT } from "./constants";
+import { gameContextProps } from "../../types";
+import { GAMEBOARD_HEIGHT } from "../../constants";
 import React from "react";
-import { Cell } from "./Cell";
-import { getCellClasses } from "./utils";
-import { GameContext } from "./SnakeGame";
+import { Cell } from "../cell/Cell";
+import { getCellClasses } from "../../utils";
+import { GameContext } from "../snake-game/SnakeGame";
 
 const GameBoard = () => {
   const gameContext = useContext(GameContext);
