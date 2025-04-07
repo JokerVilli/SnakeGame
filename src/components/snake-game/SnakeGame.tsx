@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./SnakeGame.css";
-import "./experience/styles.css";
+import "../../experience/styles.css";
 import ProgressBar from "../progress-bar/ProgressBar";
 import { gameContextProps, Position } from "../../types";
 import { COEF, EXPERIENCE_MAP, INITIAL_SNAKE, TIMER } from "../../constants";
@@ -12,9 +12,8 @@ import Statistic from "../statistic/Statistic";
 import GameBoard from "../game-board/GameBoard";
 import Header from "../header/Header";
 import { playSound } from "../../utils";
-import waterGulpSound from './assets/sounds/water_gulp.wav';
-import swipeSound from './assets/sounds/swipe.wav';
-import gameOverSound from './assets/sounds/game_over.wav';
+import waterGulpSound from '../../assets/sounds/water_gulp.wav';
+import gameOverSound from '../../assets/sounds/game_over.wav';
 
 export const GameContext = React.createContext<gameContextProps | null>(null);
 
