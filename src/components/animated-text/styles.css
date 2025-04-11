@@ -1,0 +1,40 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  
+}
+
+.word {
+  display: flex;
+  white-space: nowrap;
+  mix-blend-mode: hard-light;
+  opacity: 1;
+  transition: opacity 5s ease 0.5s;
+}
+
+.letter {
+  font-size: 30vh;
+  text-transform: uppercase;
+  font-family: Saira, sans-serif;
+  font-weight: 900;
+  /* letter-spacing: 1vh; */
+  line-height: 100%;
+  opacity: 0;
+  transition-property: transform, opacity;
+  transition-timing-function: ease;
+  margin: 0 0.1em;
+  background-color: crimson;
+  color: transparent;
+  text-shadow: -3px -3px 2px rgb(143 36 197 / 50%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}

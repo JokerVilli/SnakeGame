@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import './Grid.css';
+import AnimatedText from "../animated-text/AnimatedText";
+import StaticText from "../static-text/StaticText";
 
 const CELL_SIZE = 40; // 40px
 
@@ -52,6 +54,15 @@ const Grid = () => {
     rows: 0,
   });
 
+  const [hideContainer, setHideContainer] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHideContainer(true);
+    }, 10000);
+
+  }, []);
+
   useEffect(() => {
     const updateGrid = () => {
       const columns = Math.floor(window.innerWidth / CELL_SIZE);
@@ -85,10 +96,12 @@ const Grid = () => {
           )
         )}
       </div>
-      <div className="slogan-plate">
+      {/* <div className="slogan-plate">
         <div className="slogan">SIMPLE</div>
         <div className="slogan">MINDS</div>
-      </div>
+      </div> */}
+      <AnimatedText hideContainer={hideContainer} />
+      <StaticText showContainer={hideContainer} />
     </>
   );
 };
